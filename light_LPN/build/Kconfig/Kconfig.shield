@@ -1,0 +1,4 @@
+osource "d:/bluemesh/tflite/tflite-v2/mesh_2.4.2/boards/shields/*/Kconfig.shield"
+osource "d:/bluemesh/tflite/tflite-v2/light_switch_lpn/boards/shields/*/Kconfig.shield"
+osource "d:/bluemesh/tflite/tflite-v2/light_lpn/boards/shields/*/Kconfig.shield"
+osource "D:/ncs/v2.4.2/v2.4.2/nrf/boards/shields/*/Kconfig.shield"

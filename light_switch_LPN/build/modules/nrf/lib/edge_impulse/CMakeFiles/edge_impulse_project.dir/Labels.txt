@@ -1,0 +1,13 @@
+# Target labels
+ edge_impulse_project
+# Source files and their labels
+D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/modules/nrf/lib/edge_impulse/CMakeFiles/edge_impulse_project
+D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/modules/nrf/lib/edge_impulse/CMakeFiles/edge_impulse_project.rule
+D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/modules/nrf/lib/edge_impulse/CMakeFiles/edge_impulse_project-complete.rule
+D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-build.rule
+D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-configure.rule
+D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-download.rule
+D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-install.rule
+D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-mkdir.rule
+D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-patch.rule
+D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-update.rule

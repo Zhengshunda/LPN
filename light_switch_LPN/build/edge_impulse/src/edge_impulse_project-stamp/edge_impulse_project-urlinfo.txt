@@ -1,0 +1,3 @@
+repository='external project URL'
+module='D:/bluemesh/tflite/tflite-v2/light_switch_LPN/11212-v1.zip'
+tag=''

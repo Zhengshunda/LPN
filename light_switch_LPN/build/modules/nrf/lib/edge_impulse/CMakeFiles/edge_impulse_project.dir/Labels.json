@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/modules/nrf/lib/edge_impulse/CMakeFiles/edge_impulse_project"
+		},
+		{
+			"file" : "D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/modules/nrf/lib/edge_impulse/CMakeFiles/edge_impulse_project.rule"
+		},
+		{
+			"file" : "D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/modules/nrf/lib/edge_impulse/CMakeFiles/edge_impulse_project-complete.rule"
+		},
+		{
+			"file" : "D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-build.rule"
+		},
+		{
+			"file" : "D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-configure.rule"
+		},
+		{
+			"file" : "D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-download.rule"
+		},
+		{
+			"file" : "D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-install.rule"
+		},
+		{
+			"file" : "D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-mkdir.rule"
+		},
+		{
+			"file" : "D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-patch.rule"
+		},
+		{
+			"file" : "D:/bluemesh/tflite/tflite-v2/light_switch_LPN/build/edge_impulse/src/edge_impulse_project-stamp/edge_impulse_project-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"edge_impulse_project"
+		],
+		"name" : "edge_impulse_project"
+	}
+}
