@@ -37,7 +37,6 @@ extern uint8_t raw_data[3072];
 
 int debugbuf(uint8_t* buf,int size);
 
-
 uint8_t classification_result();
 uint8_t Fault_Number;
 int transition = 0;
@@ -53,12 +52,29 @@ int bt_mesh_onoff_cli_set_unack_test(struct bt_mesh_onoff_cli *cli,
 				struct bt_mesh_msg_ctx *ctx,
 				const struct bt_mesh_onoff_set *set);
 
+int bt_mesh_msg_send_lpn(struct bt_mesh_model *model, struct bt_mesh_msg_ctx *ctx,
+		     struct net_buf_simple *buf);
+
 #define LOG_LEVEL 4
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(bt_mesh);
 
+/* to deal with retry */
+static struct k_work send_work;
+static bool work_queued = false;
 
-
+static void send_message(struct k_work *work)
+{
+    //spi_data_get();
+	//k_msleep(1); 
+	//mymodel();
+	//k_msleep(1000);  
+	//Fault_Number = classification_result();
+	Fault_Number = 1;
+    lpn_send();
+	//work_queued = false;
+	printk("send_message\n");
+}
 
 /* Light switch behavior */
 
@@ -102,17 +118,24 @@ static void status_handler(struct bt_mesh_onoff_cli *cli,
 
 	printk("Button %d: Received response: %s\n", index + 1,
 	       status->present_on_off ? "on" : "off"); */
-	transition++;
 	//spi_data_get();
-	//k_msleep(1000); 
-	mymodel();
+	//k_msleep(1); 
+	//mymodel();
 	//k_msleep(1000);  
 	//Fault_Number = classification_result();
+	transition++;
+	if (transition % 2 != 0) {
+        k_work_init(&send_work, send_message);
+        k_work_submit(&send_work);
+    }
 	LOG_DBG("the number of transition is %d\n",transition);
+	LOG_DBG("recv_dst is %X\n",ctx->recv_dst);
+	LOG_DBG("addr is %X\n",ctx->addr);
+	LOG_DBG("TTL is %X\n",ctx->recv_ttl);
 	Fault_Number = 1;
 	//err = bt_mesh_onoff_cli_set_unack_lpn(&buttons[i].client,NULL, &set);//zsd
 	//printk("present status %d and target status %d\n",status->present_on_off,status->target_on_off);
-	lpn_send();
+	//lpn_send();
 	//printk("the  model_init_flag is :%d\n",model_init_flag);
 	//int err;
 	//err = bt_mesh_onoff_cli_set_unack_lpn(&buttons[0].client,NULL, NULL);
@@ -168,7 +191,7 @@ static void button_handler_cb(uint32_t pressed, uint32_t changed)
 	}
 }
 /* zsd */
-/* 这个是发送的东西， */
+/* send */
 int bt_mesh_onoff_cli_set_unack_lpn(struct bt_mesh_onoff_cli *cli,
 				struct bt_mesh_msg_ctx *ctx,
 				const struct bt_mesh_onoff_set *set)
@@ -191,24 +214,23 @@ int bt_mesh_onoff_cli_set_unack_lpn(struct bt_mesh_onoff_cli *cli,
 /* zsd */
 static void lpn_send()
 {
-	for (int i = 0; i < 1; ++i) 
-	{
-		struct bt_mesh_onoff_set set = {
-			.on_off = !buttons[i].status,	
-		};
-		int err;
-		/* As we can't know how many nodes are in a group, it doesn't
+	
+	/* struct bt_mesh_onoff_set set = {
+		.on_off = !buttons[i].status,	
+	}; */
+	int err;
+	/* As we can't know how many nodes are in a group, it doesn't
 		 * make sense to send acknowledged messages to group addresses -
 		 * we won't be able to make use of the responses anyway. This also
 		 * applies in LPN mode, since we can't expect to receive a response
 		 * in appropriate time.
-		 */
-		err = bt_mesh_onoff_cli_set_unack_test(&buttons[i].client,
-							  NULL, &set);//zsd
-		if (err) {
-			printk("OnOff %d set failed: %d\n", i + 1, err);
-		}
+	 */
+	err = bt_mesh_onoff_cli_set_unack_test(&buttons[0].client,
+							NULL, NULL);//zsd
+	if (err) {
+			printk("OnOff %d set failed: %d\n", 0 + 1, err);
 	}
+	
 }
 
 int bt_mesh_onoff_cli_set_unack_test(struct bt_mesh_onoff_cli *cli,
@@ -229,26 +251,19 @@ int bt_mesh_onoff_cli_set_unack_test(struct bt_mesh_onoff_cli *cli,
 
 	return bt_mesh_msg_send(cli->model, ctx, &msg);
 }
-/* zsd */
-/* int bt_mesh_onoff_cli_set_unack_lpn(struct bt_mesh_onoff_cli *cli,
-				struct bt_mesh_msg_ctx *ctx,
-				const struct bt_mesh_onoff_set *set)
+
+int bt_mesh_msg_send_lpn(struct bt_mesh_model *model, struct bt_mesh_msg_ctx *ctx,
+		     struct net_buf_simple *buf)
 {
-	if (!set->reuse_transaction) {
-		cli->tid++;
-	}
-	BT_MESH_MODEL_BUF_DEFINE(msg, BT_MESH_ONOFF_OP_SET_UNACK,
-				 BT_MESH_ONOFF_MSG_MAXLEN_SET);
-	bt_mesh_model_msg_init(&msg, BT_MESH_ONOFF_OP_SET_UNACK);
-
-	net_buf_simple_add_u8(&msg, THE_PT_ID);
-	net_buf_simple_add_u8(&msg, Fault_Number);
-	if (set->transition) {
-		model_transition_buf_add(&msg, set->transition);
+	if (!ctx && !model->pub) {
+		return -ENOTSUP;
 	}
 
-	return bt_mesh_msg_send(cli->model, ctx, &msg);
-} */
+	if (ctx) {
+		return bt_mesh_model_send(model, ctx, buf, NULL, 0);
+	}
+
+}
 
 /* Set up a repeating delayed work to blink the DK's LEDs when attention is
  * requested.
